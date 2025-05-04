@@ -1,0 +1,10 @@
+pages:
+  main:
+    - username
+    - email
+  profile:
+    - username
+    - email
+    - firstName
+    - lastName
+    - bio
