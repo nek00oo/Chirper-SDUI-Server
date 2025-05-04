@@ -1,12 +1,14 @@
 package ru.itmo.chirperserver.models;
 
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 import ru.itmo.chirperserver.models.styles.Layout;
 import ru.itmo.chirperserver.models.styles.Style;
 
 import java.util.List;
 import java.util.Map;
 
+@Document
 @Data
 public class UiComponent {
     private String type;

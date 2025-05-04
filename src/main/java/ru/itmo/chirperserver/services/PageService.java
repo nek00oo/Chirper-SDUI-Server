@@ -1,6 +1,7 @@
 package ru.itmo.chirperserver.services;
 
 import org.springframework.stereotype.Service;
+import ru.itmo.chirperserver.exceptions.PageNotFoundException;
 import ru.itmo.chirperserver.models.PageResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,13 +34,16 @@ public class PageService {
     public PageResponse getPage(String pageId, Long userId) {
         Optional<String> optJson = redisService.getTemplateJson(pageId);
         String templateJson = optJson.orElseGet(() -> {
-            PageTemplate tpl = templateRepo.findById(pageId)
-                    .orElseThrow(() -> new RuntimeException("Page not found: " + pageId));
+            PageTemplate tpl = templateRepo.findByName(pageId)
+                    .orElseThrow(() -> new PageNotFoundException(pageId));
 
-            String json = tpl.getJson();
-            redisService.cacheTemplateJson(pageId, json);
-
-            return json;
+            try {
+                String json = objectMapper.writeValueAsString(new PageResponse(tpl.getScreen()));
+                redisService.cacheTemplateJson(pageId, json);
+                return json;
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Failed to serialize screen", e);
+            }
         });
 
         PageResponse template;
@@ -49,10 +53,10 @@ public class PageService {
             throw new RuntimeException("Failed to parse template JSON", e);
         }
 
-        Map<String,Object> userData = userService.loadUserData(userId, pageId);
-
+        Map<String, Object> userData = userService.loadUserData(userId, pageId);
         return pageProcessor.personalize(template, userData);
     }
+
 }
 
 

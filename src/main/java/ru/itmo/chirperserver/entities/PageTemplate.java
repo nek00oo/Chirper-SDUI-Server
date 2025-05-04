@@ -1,16 +1,18 @@
 package ru.itmo.chirperserver.entities;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
+import ru.itmo.chirperserver.models.Screen;
 
-@Entity
+@Document(collection = "pages")
 @Data
 public class PageTemplate {
     @Id
     private String id;
-    @Lob
-    private String json;
+
+    private String name;
+
+    private Screen screen;
 }
 

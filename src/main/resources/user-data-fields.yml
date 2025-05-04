@@ -1,10 +1,14 @@
 pages:
-  main:
-    - username
-    - email
-  profile:
-    - username
-    - email
-    - firstName
-    - lastName
-    - bio
+  pages:
+    main:
+      - username
+      - email
+    profile:
+      - firstname
+      - lastname
+      - avatarUrl
+      - city
+      - education
+      - experience
+      - postCount
+      - followersCount

@@ -3,7 +3,7 @@ package ru.itmo.chirperserver.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.itmo.chirperserver.configs.UserDataFieldsConfig;
-import ru.itmo.chirperserver.entities.User;
+import ru.itmo.chirperserver.entities.ProfileUser;
 import ru.itmo.chirperserver.repositories.UserRepository;
 
 import java.util.HashMap;
@@ -21,24 +21,30 @@ public class UserService {
         this.userDataFieldsConfig = userDataFieldsConfig;
     }
 
-    public User getUserByUsername(String username) {
+    public ProfileUser getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public ProfileUser createUser(ProfileUser profileUser) {
+        return userRepository.save(profileUser);
     }
 
     public Map<String, Object> loadUserData(Long userId, String pageId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User with id " + userId + " not found"));
-        List<String> fields = userDataFieldsConfig.getPages().get(pageId);
+        ProfileUser profileUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User with id " + userId + " not found"));
+        Map<String, List<String>> pagesConfig = userDataFieldsConfig.getPages();
+
+        if (pagesConfig == null || pagesConfig.isEmpty()) {
+            throw new IllegalStateException("Pages configuration is missing");
+        }
+
+        List<String> fields = pagesConfig.get(pageId);
 
         Map<String, Object> result = new HashMap<>();
         for (String field : fields) {
             try {
-                var value = User.class.getDeclaredField(field);
+                var value = ProfileUser.class.getDeclaredField(field);
                 value.setAccessible(true);
-                result.put(field, value.get(user));
+                result.put(field, value.get(profileUser));
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 System.err.println("Can't extract field: " + field);
             }

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: ChirperServer
+  datasource:
+    url: jdbc:postgresql://localhost:5430/chirper_database
+    username: myuser
+    password: secret
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    mongodb:
+      uri: mongodb://root:secret@localhost:27010/chirper_database?authSource=admin
+    redis:
+      host: localhost
+      port: 6370
+  config:
+    import: classpath:user-data-fields.yml

@@ -1,8 +1,10 @@
 package ru.itmo.chirperserver.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import ru.itmo.chirperserver.entities.PageTemplate;
 
-public interface PageTemplateRepository extends JpaRepository<PageTemplate, String> {
-}
+import java.util.Optional;
 
+public interface PageTemplateRepository extends MongoRepository<PageTemplate, String> {
+    Optional<PageTemplate> findByName(String name);
+}
