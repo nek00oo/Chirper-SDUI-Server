@@ -18,7 +18,7 @@ public class RedisService {
 
     public void cacheTemplateJson(String pageId, String json) {
         String key = "page:template:" + pageId;
-        redis.opsForValue().set(key, json, Duration.ofHours(1));
+        redis.opsForValue().set(key, json, Duration.ofSeconds(10));
     }
 }
 

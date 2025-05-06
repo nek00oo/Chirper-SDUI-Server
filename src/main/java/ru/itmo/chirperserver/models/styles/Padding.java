@@ -10,5 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Padding {
+    private Integer top;
+    private Integer bottom;
+    private Integer left;
+    private Integer right;
     private Integer all;
 }

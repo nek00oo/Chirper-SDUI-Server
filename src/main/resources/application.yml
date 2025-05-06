@@ -21,3 +21,5 @@ spring:
       port: 6370
   config:
     import: classpath:user-data-fields.yml
+  jackson:
+    default-property-inclusion: non_null

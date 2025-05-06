@@ -1,22 +1,24 @@
 package ru.itmo.chirperserver.models;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Value;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ru.itmo.chirperserver.models.styles.Layout;
 import ru.itmo.chirperserver.models.styles.Style;
 
-import java.util.List;
 import java.util.Map;
 
 @Document
-@Data
+@Value
+@AllArgsConstructor
 public class UiComponent {
-    private String type;
-    private String text;
-    private String url;
-    private Style style;
-    private Layout layout;
-    private List<Item> items;
-    private Map<String, Object> props;
+    String type;
+    Layout layout;
+    Style style;
+    Map<String, Object> props;
+
+    public UiComponent withProps(Map<String, Object> newProps) {
+        return new UiComponent(this.type, this.layout, this.style, newProps);
+    }
 }
 

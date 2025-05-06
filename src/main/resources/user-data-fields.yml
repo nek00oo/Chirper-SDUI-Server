@@ -4,10 +4,12 @@ pages:
       - username
       - email
     profile:
+      - username
       - firstname
       - lastname
       - avatarUrl
       - city
+      - email
       - education
       - experience
       - postCount

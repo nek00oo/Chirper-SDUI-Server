@@ -14,4 +14,5 @@ public class Margin {
     private Integer bottom;
     private Integer left;
     private Integer right;
+    private Integer all;
 }
